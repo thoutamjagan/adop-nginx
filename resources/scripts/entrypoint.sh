@@ -15,18 +15,18 @@ perl -p -i -e 's/###([^#]+)###/defined $ENV{$1} ? $ENV{$1} : $&/eg' < "/template
 # the depends_on see https://github.com/docker/compose/pull/686 and https://github.com/docker/compose/issues/2682 is introduced
 # on docker compose
 SLEEP_TIME=2
-declare -a DEPENDENCIES=( "kibana:5601" "jenkins:8080" "sonar:9000" "sensu-uchiwa:3000" "nexus:8081" "gitlab:80" )
-for d in ${DEPENDENCIES[@]}; do 
-  echo "waiting for $d to be available";
+#declare -a DEPENDENCIES=( "kibana:5601" "jenkins:8080" "sonar:9000" "sensu-uchiwa:3000" "nexus:8081" "gitlab:80" )
+#for d in ${DEPENDENCIES[@]}; do 
+#  echo "waiting for $d to be available";
   # use wget as already installed... 
   # We are checking for response codes that are not of class 5xx the most common are below, the list does not 
   # try to be exaustive, it only consider the response code that will guarantee NGINX to start when all dependencies are 
   # available.
-  until wget -S -O - http://$d 2>&1 | grep "HTTP/" | awk '{print $2}' | grep "200\|404\|403\|401\|301\|302" &> /dev/null
-  do
-      echo "$d unavailable, sleeping for ${SLEEP_TIME}"
-      sleep "${SLEEP_TIME}"
-  done
-done
+#  until wget -S -O - http://$d 2>&1 | grep "HTTP/" | awk '{print $2}' | grep "200\|404\|403\|401\|301\|302" &> /dev/null
+#  do
+#      echo "$d unavailable, sleeping for ${SLEEP_TIME}"
+#      sleep "${SLEEP_TIME}"
+#  done
+#done
 
 /usr/sbin/nginx
